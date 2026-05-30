@@ -37,8 +37,13 @@ const dic = {
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-export function generateLeroLero() {
-  return getRandom(dic.leroLero) + " " + getRandom(dic.leroLero);
+export function generateLeroLero(size = 'Curto') {
+  const count = size === 'Curto' ? 2 : size === 'Médio' ? 4 : 8;
+  const text = [];
+  for (let i = 0; i < count; i++) {
+    text.push(getRandom(dic.leroLero));
+  }
+  return text.join(" ");
 }
 
 export function generateQuote() {

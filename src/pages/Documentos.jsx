@@ -1,11 +1,18 @@
+import { useState } from 'react';
 import CardGenerator from '../components/CardGenerator';
+import CardGeneratorMulti from '../components/CardGeneratorMulti';
+import FilterSelect from '../components/FilterSelect';
 import { generateCPF } from '../utils/generators/cpf';
 import { generateCNPJ } from '../utils/generators/cnpj';
 import { generateRG } from '../utils/generators/rg';
 import { generateCNH } from '../utils/generators/cnh';
 import { generatePIS } from '../utils/generators/pis';
+import { generatePerson } from '../utils/generators/person';
 
 export default function Documentos() {
+  const [personAge, setPersonAge] = useState('adult');
+  const [personGender, setPersonGender] = useState('random');
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-8">
@@ -49,6 +56,32 @@ export default function Documentos() {
           description="Programa de Integração Social" 
           generatorFn={() => generatePIS(true)} 
         />
+        <CardGeneratorMulti 
+          title={`Pessoa Completa (${personGender === 'M' ? 'Homem' : personGender === 'F' ? 'Mulher' : 'Qualquer'}, ${personAge === 'adult' ? 'Adulto' : personAge === 'minor' ? 'Menor' : 'Idoso'})`} 
+          description="Dados completos com endereço" 
+          generatorFn={() => generatePerson(personAge, personGender)} 
+        >
+          <div className="grid grid-cols-2 gap-2">
+            <FilterSelect 
+              value={personGender}
+              onChange={setPersonGender}
+              options={[
+                { value: 'random', label: 'Gênero (Todos)' },
+                { value: 'M', label: 'Masculino' },
+                { value: 'F', label: 'Feminino' }
+              ]}
+            />
+            <FilterSelect 
+              value={personAge}
+              onChange={setPersonAge}
+              options={[
+                { value: 'adult', label: 'Adultos (+18)' },
+                { value: 'minor', label: 'Menores (-18)' },
+                { value: 'senior', label: 'Idosos (+65)' }
+              ]}
+            />
+          </div>
+        </CardGeneratorMulti>
       </div>
     </div>
   );

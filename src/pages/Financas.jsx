@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import CardGenerator from '../components/CardGenerator';
 import CardGeneratorMulti from '../components/CardGeneratorMulti';
+import FilterSelect from '../components/FilterSelect';
 
 import { 
   generateCreditCard, 
@@ -22,6 +24,8 @@ import {
 } from '../utils/generators/contracts';
 
 export default function Financas() {
+  const [ccBrand, setCcBrand] = useState('visa');
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-8">
@@ -36,15 +40,20 @@ export default function Financas() {
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Pagamentos e Bancos</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CardGenerator 
-            title="Cartão de Crédito (Visa)" 
+            title={`Cartão de Crédito (${ccBrand.toUpperCase()})`} 
             description="Algoritmo de Luhn Válido" 
-            generatorFn={() => generateCreditCard('visa')} 
-          />
-          <CardGenerator 
-            title="Cartão de Crédito (Mastercard)" 
-            description="Algoritmo de Luhn Válido" 
-            generatorFn={() => generateCreditCard('mastercard')} 
-          />
+            generatorFn={() => generateCreditCard(ccBrand)} 
+          >
+            <FilterSelect 
+              value={ccBrand}
+              onChange={setCcBrand}
+              options={[
+                { value: 'visa', label: 'Visa' },
+                { value: 'mastercard', label: 'Mastercard' },
+                { value: 'amex', label: 'American Express' }
+              ]}
+            />
+          </CardGenerator>
           <CardGenerator 
             title="IBAN" 
             description="Módulo 97 Internacional" 

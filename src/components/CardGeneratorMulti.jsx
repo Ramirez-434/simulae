@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { RefreshCw } from 'lucide-react';
+import { motion } from 'framer-motion';
 import CopyButton from './CopyButton';
 import BulkDownload from './BulkDownload';
 import useCardShortcuts from '../hooks/useCardShortcuts';
-import { motion } from 'framer-motion';
+import { useHistory } from '../context/HistoryContext';
 
-export default function CardGeneratorMulti({ title, description, generatorFn, allowBulk = false }) {
-  const [value, setValue] = useState('Gerando...');
+export default function CardGeneratorMulti({ title, description, generatorFn, allowBulk = true, children }) {
+  const [value, setValue] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+  const { addHistoryItem } = useHistory();
 
   const handleGenerate = async () => {
     try {
@@ -16,8 +18,10 @@ export default function CardGeneratorMulti({ title, description, generatorFn, al
         setValue('Gerando...');
         const resolved = await result;
         setValue(resolved);
+        addHistoryItem(title, resolved);
       } else {
         setValue(result);
+        addHistoryItem(title, result);
       }
     } catch (error) {
       setValue('Erro ao gerar');
@@ -47,6 +51,7 @@ export default function CardGeneratorMulti({ title, description, generatorFn, al
           {isHovered && <span className="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded ml-auto font-sans">Ativo</span>}
         </h3>
         <p className="text-sm text-slate-400 mt-1">{description}</p>
+        {children && <div className="mt-2">{children}</div>}
       </div>
 
       <div className="flex flex-col gap-2 mt-auto">

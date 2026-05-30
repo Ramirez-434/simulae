@@ -11,8 +11,12 @@ import {
   ShoppingCart,
   HeartPulse,
   Radio,
-  Briefcase
+  Briefcase,
+  Clock,
+  Sun,
+  Moon
 } from 'lucide-react';
+import { useTheme } from '../hooks/useTheme';
 
 const navItems = [
   { id: 'documentos', label: 'Documentos', icon: FileText },
@@ -30,9 +34,11 @@ const navItems = [
   { id: 'validadores', label: 'Validadores (Em Breve)', icon: CheckCircle },
 ];
 
-export default function Sidebar({ activeTab, setActiveTab }) {
+export default function Sidebar({ activeTab, setActiveTab, onOpenHistory }) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <aside className="w-64 glass-panel border-r border-slate-700/50 flex flex-col h-full hidden md:flex">
+    <aside className="w-64 glass-panel border-r border-slate-700/50 dark:border-slate-700 flex flex-col h-full hidden md:flex">
         <div className="flex items-center justify-center h-20 border-b border-white/10 relative">
           <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 font-satoshi lowercase">
             <span className="text-emerald-400">simu</span>lae
@@ -62,8 +68,25 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         })}
       </nav>
       
-      <div className="p-4 text-xs text-slate-500 text-center border-t border-slate-700/50">
-        Os dados gerados são fictícios e destinados a testes.
+      {/* Bottom Actions */}
+      <div className="p-4 border-t border-white/10 dark:border-slate-800 flex flex-col gap-2">
+        <button
+          onClick={onOpenHistory}
+          className="flex items-center gap-3 px-3 py-2 w-full rounded-md text-sm font-medium transition-all text-slate-600 hover:text-emerald-500 hover:bg-emerald-50 dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-emerald-500/10"
+        >
+          <Clock size={18} />
+          Histórico Local
+        </button>
+        <button
+          onClick={toggleTheme}
+          className="flex items-center gap-3 px-3 py-2 w-full rounded-md text-sm font-medium transition-all text-slate-600 hover:text-emerald-500 hover:bg-emerald-50 dark:text-slate-400 dark:hover:text-emerald-400 dark:hover:bg-emerald-500/10"
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          {theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+        </button>
+        <div className="text-xs text-slate-400 dark:text-slate-500 text-center pt-2">
+          Os dados gerados são fictícios e destinados a testes.
+        </div>
       </div>
     </aside>
   );

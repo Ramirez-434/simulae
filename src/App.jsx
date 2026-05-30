@@ -3,7 +3,12 @@ import { Toaster } from 'sonner';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import Layout from './components/Layout';
 import CommandPalette from './components/CommandPalette';
+import HistoryPanel from './components/HistoryPanel';
+import { HistoryProvider } from './context/HistoryContext';
+import { useTheme } from './hooks/useTheme';
 import Documentos from './pages/Documentos';
+
+// ... (omitting lines, let's just do a smaller replace instead)
 import Validadores from './pages/Validadores';
 import Localizacao from './pages/Localizacao';
 import Financas from './pages/Financas';
@@ -19,12 +24,15 @@ import RH from './pages/RH';
 
 function App() {
   const [activeTab, setActiveTab] = useState('documentos');
+  const { theme } = useTheme();
   
   // Mouse tracking for reactive background
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+  
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -63,11 +71,13 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-slate-200 overflow-hidden font-sans z-0">
-      <Toaster theme="dark" position="bottom-center" toastOptions={{
-        className: 'glass-panel !bg-slate-900/90 !text-slate-100 !border-white/10'
-      }} />
-      <CommandPalette setActiveTab={setActiveTab} />
+    <HistoryProvider>
+      <div className={`relative min-h-screen ${theme === 'dark' ? 'bg-[#050505] text-slate-200' : 'bg-slate-50 text-slate-800'} overflow-hidden font-sans z-0`}>
+        <Toaster theme={theme === 'dark' ? 'dark' : 'light'} position="bottom-center" toastOptions={{
+          className: 'glass-panel !bg-slate-900/90 !text-slate-100 !border-white/10'
+        }} />
+        <CommandPalette setActiveTab={setActiveTab} />
+        <HistoryPanel isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
       
       {/* --- INÍCIO DO MESH GRADIENT INTERATIVO --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
@@ -86,12 +96,13 @@ function App() {
       </div>
       {/* --- FIM DO MESH GRADIENT --- */}
 
-      <div className="relative z-10 h-screen">
-        <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
-          {renderContent()}
-        </Layout>
+        <div className="relative z-10 h-screen">
+          <Layout activeTab={activeTab} setActiveTab={setActiveTab} onOpenHistory={() => setIsHistoryOpen(true)}>
+            {renderContent()}
+          </Layout>
+        </div>
       </div>
-    </div>
+    </HistoryProvider>
   );
 }
 

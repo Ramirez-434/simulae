@@ -1,6 +1,9 @@
+import { useState } from 'react';
 import CardGenerator from '../components/CardGenerator';
 import CardGeneratorMulti from '../components/CardGeneratorMulti';
 import PlacaVisual from '../components/PlacaVisual';
+
+// ... (omitted)
 
 import { 
   generateCEP, 
@@ -17,6 +20,8 @@ import {
 } from '../utils/generators/vehicles';
 
 export default function Localizacao() {
+  const [selectedState, setSelectedState] = useState('');
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-8">
@@ -37,8 +42,19 @@ export default function Localizacao() {
           <CardGeneratorMulti 
             title="Endereço Completo" 
             description="Logradouro real do Brasil" 
-            generatorFn={() => generateAddress()} 
-          />
+            generatorFn={() => generateAddress(selectedState || null)} 
+          >
+            <select
+              value={selectedState}
+              onChange={(e) => setSelectedState(e.target.value)}
+              className="w-full mt-2 bg-slate-900/50 border border-slate-700 rounded-md p-2 text-sm text-slate-200 outline-none focus:border-emerald-500 transition-colors"
+            >
+              <option value="">Qualquer Estado (Aleatório)</option>
+              {['SP', 'RJ', 'MG', 'RS', 'PR', 'SC', 'BA', 'PE', 'CE', 'GO'].map(st => (
+                <option key={st} value={st}>{st}</option>
+              ))}
+            </select>
+          </CardGeneratorMulti>
           <CardGenerator 
             title="Código de Rastreio" 
             description="Padrão Correios" 

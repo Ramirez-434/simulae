@@ -28,12 +28,12 @@ export function generateCEP(format = true) {
   return cep;
 }
 
-export function generateAddress() {
+export function generateAddress(desiredState = null) {
   const street = getRandom(dictionary.streets);
   const number = Math.floor(Math.random() * 2000) + 1;
   const neighborhood = getRandom(dictionary.neighborhoods);
   const city = getRandom(dictionary.cities);
-  const state = getRandom(dictionary.states);
+  const state = desiredState || getRandom(dictionary.states);
   const cep = generateCEP();
 
   return `${street}, ${number}\n${neighborhood}\n${city} - ${state}\nCEP: ${cep}`;

@@ -47,9 +47,12 @@ function WhatsAppMockup({ rawChatText }) {
   );
 }
 
+import { useHistory } from '../context/HistoryContext';
+
 export default function CardGeneratorWhatsApp({ title, description, generatorFn }) {
   const [value, setValue] = useState('Gerando...');
   const [isHovered, setIsHovered] = useState(false);
+  const { addHistoryItem } = useHistory();
 
   const handleGenerate = async () => {
     try {
@@ -58,8 +61,10 @@ export default function CardGeneratorWhatsApp({ title, description, generatorFn 
         setValue('Gerando...');
         const resolved = await result;
         setValue(resolved);
+        addHistoryItem(title, resolved);
       } else {
         setValue(result);
+        addHistoryItem(title, result);
       }
     } catch (error) {
       setValue('Erro ao gerar');

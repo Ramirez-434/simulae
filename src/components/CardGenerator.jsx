@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { RefreshCw } from 'lucide-react';
+import { motion } from 'framer-motion';
 import CopyButton from './CopyButton';
 import BulkDownload from './BulkDownload';
 import useCardShortcuts from '../hooks/useCardShortcuts';
-import { motion } from 'framer-motion';
+import { useHistory } from '../context/HistoryContext';
 
-export default function CardGenerator({ title, description, generatorFn, allowBulk = false }) {
-  const [value, setValue] = useState('Gerando...');
+export default function CardGenerator({ title, description, generatorFn, allowBulk = true, children }) {
+  const [value, setValue] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+  const { addHistoryItem } = useHistory();
 
   const handleGenerate = async () => {
     try {
@@ -16,8 +18,10 @@ export default function CardGenerator({ title, description, generatorFn, allowBu
         setValue('Gerando...');
         const resolved = await result;
         setValue(resolved);
+        addHistoryItem(title, resolved);
       } else {
         setValue(result);
+        addHistoryItem(title, result);
       }
     } catch (error) {
       setValue('Erro ao gerar');

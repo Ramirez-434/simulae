@@ -83,16 +83,16 @@ function App() {
       <div className="absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         {/* Blob Azul Escuro (Reativo) */}
         <motion.div 
-          className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-blue-900/40 mix-blend-screen filter blur-[120px] opacity-70"
+          className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-blue-300/60 dark:bg-blue-900/40 mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-70"
           style={{ x: springX, y: springY }}
         />
         {/* Blob Roxo (Menos reativo, inverso) */}
         <motion.div 
-          className="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-purple-900/30 mix-blend-screen filter blur-[120px] opacity-70"
+          className="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-purple-300/60 dark:bg-purple-900/30 mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-70"
           style={{ x: useSpring(useMotionValue(0), { stiffness: 20 }), y: useSpring(useMotionValue(0), { stiffness: 20 }) }}
         />
         {/* Blob Esmeralda/Teal (Fixo) */}
-        <div className="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-teal-900/20 mix-blend-screen filter blur-[120px] opacity-60"></div>
+        <div className="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-teal-300/50 dark:bg-teal-900/20 mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-60"></div>
       </div>
       {/* --- FIM DO MESH GRADIENT --- */}
 

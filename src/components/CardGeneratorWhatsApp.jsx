@@ -18,7 +18,7 @@ function WhatsAppMockup() {
 
   return (
     <div 
-      className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-slate-700 shadow-xl flex flex-col select-none relative" 
+      className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-gray-200/50 dark:border-gray-800 shadow-sm flex flex-col select-none relative" 
       style={{ height: '450px', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro", Roboto, Helvetica, Arial, sans-serif' }}
     >
       
@@ -54,7 +54,7 @@ function WhatsAppMockup() {
 
       {/* Cabeçalho */}
       {showHeader && (
-        <div className={`p-2 flex items-center z-10 shadow-sm relative ${
+        <div className={`px-3 py-2 h-[60px] flex items-center z-10 shadow-sm relative ${
           osType === 'ios' ? 'bg-[#f6f6f6] text-black dark:bg-[#1c1c1e] dark:text-white border-b border-gray-300 dark:border-gray-800' : 'bg-[#075E54] dark:bg-[#202c33] text-white'
         }`}>
           <ArrowLeft size={20} className={`mr-1 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`} />
@@ -72,7 +72,7 @@ function WhatsAppMockup() {
       )}
 
       {/* Corpo do Chat */}
-      <div className="bg-[#EFEAE2] dark:bg-[#0b141a] flex-1 p-3 flex flex-col space-y-0 overflow-y-auto relative" style={{ backgroundImage: `url("${bgPattern}")` }}>
+      <div className="bg-[#EFEAE2] dark:bg-[#0b141a] flex-1 p-2 flex flex-col space-y-0 overflow-y-auto no-scrollbar relative" style={{ backgroundImage: `url("${bgPattern}")` }}>
         
         {/* Marcador de Data */}
         <div className="flex justify-center mb-3 mt-1">
@@ -132,21 +132,21 @@ function WhatsAppMockup() {
                 {msg.type === 'audio' && (
                   <div className="flex items-center gap-2 w-56 sm:w-[260px] py-0.5">
                     <div className="relative">
-                      <div className="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                        <Mic size={20} className="text-white opacity-50" />
+                      <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                        <Mic size={18} className="text-white opacity-50" />
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#53bdeb] rounded-full flex items-center justify-center border-2 border-[#D9FDD3] dark:border-[#005c4b]">
-                        <Mic size={8} className="text-white" />
+                      <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#53bdeb] rounded-full flex items-center justify-center border-2 border-[#D9FDD3] dark:border-[#005c4b]">
+                        <Mic size={7} className="text-white" />
                       </div>
                     </div>
-                    <Play size={20} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0 ml-1" fill="currentColor" />
+                    <Play size={18} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0 ml-1" fill="currentColor" />
                     <div className="flex flex-col flex-1 justify-center mt-1">
                       <div className="flex items-center gap-[1px] h-4">
                         {[2, 4, 3, 6, 8, 10, 6, 3, 5, 8, 12, 16, 14, 10, 8, 4, 2, 5, 7, 10, 12, 8, 4].map((h, i) => (
                           <div key={i} className={`w-[2px] rounded-full bg-gray-400 dark:bg-gray-500`} style={{ height: `${Math.max(2, h * 0.7)}px` }} />
                         ))}
                       </div>
-                      <span className="text-[10px] text-gray-500 mt-1">0:15</span>
+                      <span className="text-[11px] text-gray-500 mt-1">0:15</span>
                     </div>
                   </div>
                 )}
@@ -154,7 +154,7 @@ function WhatsAppMockup() {
                 {/* IMAGE TYPE */}
                 {msg.type === 'image' && (
                   <div className="flex flex-col">
-                    <div className="aspect-square w-48 sm:w-56 rounded-md bg-gradient-to-tr from-blue-400 to-emerald-400 flex items-center justify-center overflow-hidden mb-1 relative cursor-pointer group">
+                    <div className="aspect-square w-48 sm:w-56 rounded-lg bg-gradient-to-tr from-blue-400 to-emerald-400 flex items-center justify-center overflow-hidden mb-1 relative cursor-pointer group">
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                       <ImageIcon size={48} className="text-white/80" />
                     </div>

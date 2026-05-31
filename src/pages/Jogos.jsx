@@ -27,8 +27,8 @@ export default function Jogos() {
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Universos Fictícios</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardGeneratorMulti title="Personagem RPG" description="Ficha rápida" generatorFn={() => generateRPGCharacter()} />
-          <CardGeneratorMulti title="Modo Carreira FIFA" description="Atributos aleatórios" generatorFn={() => generateFIFA()} />
+          <CardGeneratorMulti allowPdf={true} title="Personagem RPG" description="Ficha rápida" generatorFn={() => generateRPGCharacter()} />
+          <CardGeneratorMulti allowPdf={true} title="Modo Carreira FIFA" description="Atributos aleatórios" generatorFn={() => generateFIFA()} />
           <CardGenerator title="Nome de Guilda" description="Aliança épica" generatorFn={() => generateGuildName()} />
           <CardGenerator title="Nome de Clã" description="Para jogos competitivos" generatorFn={() => generateClanName()} />
           <CardGenerator title="Nome de Banda" description="Estilo musical clássico" generatorFn={() => generateBandName()} />
@@ -40,9 +40,9 @@ export default function Jogos() {
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Lazer e Sorteios</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CardGenerator title="Números de Loteria" description="Mega-Sena (6 números)" generatorFn={() => generateLottery()} />
-          <CardGeneratorMulti title="Cartela de Bingo" description="Sorteio BINGO" generatorFn={() => generateBingo()} />
-          <CardGeneratorMulti title="Verdade ou Desafio" description="Jogo social" generatorFn={() => generateTruthOrDare()} />
-          <CardGeneratorMulti title="Gerador de Piadas" description="Humor rápido" generatorFn={() => generateJoke()} />
+          <CardGeneratorMulti allowPdf={true} title="Cartela de Bingo" description="Sorteio BINGO" generatorFn={() => generateBingo()} />
+          <CardGeneratorMulti allowPdf={true} title="Verdade ou Desafio" description="Jogo social" generatorFn={() => generateTruthOrDare()} />
+          <CardGeneratorMulti allowPdf={true} title="Gerador de Piadas" description="Humor rápido" generatorFn={() => generateJoke()} />
         </div>
       </div>
     </div>

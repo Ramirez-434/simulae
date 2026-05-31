@@ -39,9 +39,9 @@ export default function RedesSociais() {
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Textos e Metadados</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti title="Bio do Instagram" description="Texto curto e emojis" generatorFn={() => generateInstaBio()} />
-          <CardGeneratorMulti title="Descrição YouTube" description="Sobre o canal" generatorFn={() => generateYoutubeDesc()} />
-          <CardGeneratorMulti title="Assinatura de Email" description="Profissional" generatorFn={() => generateEmailSignature()} />
+          <CardGeneratorMulti allowPdf={true} title="Bio do Instagram" description="Texto curto e emojis" generatorFn={() => generateInstaBio()} />
+          <CardGeneratorMulti allowPdf={true} title="Descrição YouTube" description="Sobre o canal" generatorFn={() => generateYoutubeDesc()} />
+          <CardGeneratorMulti allowPdf={true} title="Assinatura de Email" description="Profissional" generatorFn={() => generateEmailSignature()} />
           <CardGenerator title="Hashtags" description="Mix de populares" generatorFn={() => generateHashtags()} />
         </div>
       </div>
@@ -49,8 +49,8 @@ export default function RedesSociais() {
       <div>
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Interações Sociais</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti title="Post LinkedIn" description="Anúncio profissional" generatorFn={() => generateLinkedInPost()} />
-          <CardGeneratorMulti title="Tweet (X)" description="Pensamento rápido" generatorFn={() => generateTweet()} />
+          <CardGeneratorMulti allowPdf={true} title="Post LinkedIn" description="Anúncio profissional" generatorFn={() => generateLinkedInPost()} />
+          <CardGeneratorMulti allowPdf={true} title="Tweet (X)" description="Pensamento rápido" generatorFn={() => generateTweet()} />
           <CardGeneratorWhatsApp title="Conversa WhatsApp" description="Diálogo simulado visual" generatorFn={() => generateWhatsappChat()} />
           <CardGenerator title="Link WhatsApp" description="Link wa.me" generatorFn={() => generateWhatsappLink()} />
         </div>

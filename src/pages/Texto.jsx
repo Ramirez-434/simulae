@@ -32,8 +32,8 @@ export default function Texto() {
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Marketing e Vendas</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti title="Copy para Anúncios" description="Para Facebook/Google Ads" generatorFn={() => generateAdCopy()} />
-          <CardGeneratorMulti title="E-mail Marketing" description="Campanha de vendas" generatorFn={() => generateEmailMarketing()} />
+          <CardGeneratorMulti allowPdf={true} title="Copy para Anúncios" description="Para Facebook/Google Ads" generatorFn={() => generateAdCopy()} />
+          <CardGeneratorMulti allowPdf={true} title="E-mail Marketing" description="Campanha de vendas" generatorFn={() => generateEmailMarketing()} />
           <div className="flex flex-col gap-6">
             <CardGenerator title="Depoimento de Cliente" description="Para landing pages" generatorFn={() => generateTestimonial()} />
             <CardGenerator title="Gerador de Slogan" description="Frase de impacto" generatorFn={() => generateSlogan()} />
@@ -44,7 +44,7 @@ export default function Texto() {
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Produção Textual</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title={`Lero Lero (${leroSize})`} 
             description="Gerador de texto corporativo vazio" 
             generatorFn={() => generateLeroLero(leroSize)} 
@@ -58,7 +58,7 @@ export default function Texto() {
           <CardGenerator title="Citação Motivacional" description="Para posts inspiracionais" generatorFn={() => generateQuote()} />
           <CardGenerator title="Notícia (G1 Fictício)" description="Manchete de portal" generatorFn={() => generateFakeNews()} />
           <CardGenerator title="Tema para Redação" description="Para treino do ENEM" generatorFn={() => generateEssayTopic()} />
-          <CardGeneratorMulti title="Cardápio" description="Menu de restaurante" generatorFn={() => generateMenu()} />
+          <CardGeneratorMulti allowPdf={true} title="Cardápio" description="Menu de restaurante" generatorFn={() => generateMenu()} />
         </div>
       </div>
 

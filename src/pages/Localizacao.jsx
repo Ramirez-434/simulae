@@ -39,7 +39,7 @@ export default function Localizacao() {
             description="Código de Endereçamento Postal" 
             generatorFn={() => generateCEP(true)} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Endereço Completo" 
             description="Logradouro real do Brasil" 
             generatorFn={() => generateAddress(selectedState || null)} 
@@ -60,7 +60,7 @@ export default function Localizacao() {
             description="Padrão Correios" 
             generatorFn={() => generateTrackingCode()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Etiqueta de Envio" 
             description="Remetente e Destinatário" 
             generatorFn={() => generateShippingLabel()} 

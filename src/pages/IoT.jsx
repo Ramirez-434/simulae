@@ -33,7 +33,7 @@ export default function IoT() {
       </div>
 
       <div className="grid grid-cols-1 gap-6">
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title="Payload de Telemetria (Sensores)" 
           description="JSON array com histórico de medições climáticas" 
           generatorFn={generateSensorPayload} 

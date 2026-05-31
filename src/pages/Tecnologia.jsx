@@ -59,7 +59,7 @@ export default function Tecnologia() {
             description="Baseado na Web Crypto API" 
             generatorFn={() => generateHash()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Token JWT" 
             description="Mock base64 encodado" 
             generatorFn={() => generateJWT()} 
@@ -95,7 +95,7 @@ export default function Tecnologia() {
             description="Celular Padrão BR" 
             generatorFn={() => generatePhone()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="User Agent" 
             description="Header HTTP de navegadores" 
             generatorFn={() => generateUserAgent()} 
@@ -106,17 +106,17 @@ export default function Tecnologia() {
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Dados em Bloco</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Payload JSON" 
             description="Objeto aninhado de teste" 
             generatorFn={() => generateJSON()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Query SQL INSERT" 
             description="Instrução de banco relacional" 
             generatorFn={() => generateSQLInsert()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Lorem Ipsum" 
             description="Parágrafo de marcação de texto" 
             generatorFn={() => generateLoremIpsum()} 

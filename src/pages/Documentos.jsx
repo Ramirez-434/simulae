@@ -56,7 +56,7 @@ export default function Documentos() {
           description="Programa de Integração Social" 
           generatorFn={() => generatePIS(true)} 
         />
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title={`Pessoa Completa (${personGender === 'M' ? 'Homem' : personGender === 'F' ? 'Mulher' : 'Qualquer'}, ${personAge === 'adult' ? 'Adulto' : personAge === 'minor' ? 'Menor' : 'Idoso'})`} 
           description="Dados completos com endereço" 
           generatorFn={() => generatePerson(personAge, personGender)} 

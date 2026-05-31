@@ -26,27 +26,27 @@ export default function Educacao() {
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Planejamento e Estudos</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti title="Cronograma de Estudos" description="Plano semanal" generatorFn={() => generateStudySchedule()} />
-          <CardGeneratorMulti title="Plano de Aula" description="Para professores" generatorFn={() => generateLessonPlan()} />
-          <CardGeneratorMulti title="Horário Escolar" description="Grade de aulas" generatorFn={() => generateTimetable()} />
-          <CardGeneratorMulti title="Desafio 30 Dias" description="Gamificação de hábitos" generatorFn={() => generateChallenge30Days()} />
+          <CardGeneratorMulti allowPdf={true} title="Cronograma de Estudos" description="Plano semanal" generatorFn={() => generateStudySchedule()} />
+          <CardGeneratorMulti allowPdf={true} title="Plano de Aula" description="Para professores" generatorFn={() => generateLessonPlan()} />
+          <CardGeneratorMulti allowPdf={true} title="Horário Escolar" description="Grade de aulas" generatorFn={() => generateTimetable()} />
+          <CardGeneratorMulti allowPdf={true} title="Desafio 30 Dias" description="Gamificação de hábitos" generatorFn={() => generateChallenge30Days()} />
         </div>
       </div>
 
       <div className="mb-6">
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Documentação</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti title="Currículo (CV)" description="Modelo básico texto" generatorFn={() => generateResume()} />
-          <CardGeneratorMulti title="Diploma Fictício" description="Certificado de conclusão" generatorFn={() => generateDiploma()} />
-          <CardGeneratorMulti title="Registro Acadêmico" description="Histórico de notas" generatorFn={() => generateAcademicRecord()} />
+          <CardGeneratorMulti allowPdf={true} title="Currículo (CV)" description="Modelo básico texto" generatorFn={() => generateResume()} />
+          <CardGeneratorMulti allowPdf={true} title="Diploma Fictício" description="Certificado de conclusão" generatorFn={() => generateDiploma()} />
+          <CardGeneratorMulti allowPdf={true} title="Registro Acadêmico" description="Histórico de notas" generatorFn={() => generateAcademicRecord()} />
         </div>
       </div>
 
       <div>
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Avaliação</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti title="Questões de Prova" description="Perguntas dissertativas" generatorFn={() => generateExamQuestions()} />
-          <CardGeneratorMulti title="Ficha de Leitura" description="Resumo de livro" generatorFn={() => generateReadingFiche()} />
+          <CardGeneratorMulti allowPdf={true} title="Questões de Prova" description="Perguntas dissertativas" generatorFn={() => generateExamQuestions()} />
+          <CardGeneratorMulti allowPdf={true} title="Ficha de Leitura" description="Resumo de livro" generatorFn={() => generateReadingFiche()} />
         </div>
       </div>
     </div>

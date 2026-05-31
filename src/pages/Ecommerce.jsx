@@ -34,13 +34,13 @@ export default function Ecommerce() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title="Produto Mockado (JSON)" 
           description="Atributos completos de e-commerce" 
           generatorFn={generateMockProduct} 
           allowBulk={true}
         />
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title="Avaliação de Cliente" 
           description="Review com estrelas e data" 
           generatorFn={generateReview} 

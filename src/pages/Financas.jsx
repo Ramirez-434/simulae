@@ -64,12 +64,12 @@ export default function Financas() {
             description="Agência e Conta c/ DV" 
             generatorFn={() => generateBancaryAccount()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Linha Digitável (Boleto)" 
             description="Módulos 10 e 11 combinados" 
             generatorFn={() => generateBoleto()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="PIX Copia e Cola" 
             description="Payload EMV c/ CRC16" 
             generatorFn={() => generatePIX()} 
@@ -95,7 +95,7 @@ export default function Financas() {
             description="Razão Social Fictícia" 
             generatorFn={() => generateCorporateName()} 
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Nota Fiscal (NF-e)" 
             description="Simulação de Danfe/NFe" 
             generatorFn={() => generateNFe()} 
@@ -107,13 +107,13 @@ export default function Financas() {
       <div>
         <h3 className="text-xl font-semibold text-emerald-400 border-b border-slate-700/50 pb-2 mb-4">Contratos e Documentos</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Recibo de Pagamento" 
             description="Modelo genérico" 
             generatorFn={() => generateReceipt()} 
             allowPdf={true}
           />
-          <CardGeneratorMulti 
+          <CardGeneratorMulti allowPdf={true} 
             title="Contrato de Locação" 
             description="Cláusulas simples" 
             generatorFn={() => generateRentalContract()} 

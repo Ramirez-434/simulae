@@ -40,7 +40,7 @@ export default function Saude() {
       </div>
 
       <div className="grid grid-cols-1 gap-6">
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title="Sinais Vitais e Biometria (JSON)" 
           description="Dados randômicos de saúde de um paciente" 
           generatorFn={generateVitals} 

@@ -27,13 +27,13 @@ export default function RH() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title="Espelho de Ponto (JSON)" 
           description="Batidas de entrada e saída com atrasos randômicos" 
           generatorFn={generatePonto} 
           allowBulk={true}
         />
-        <CardGeneratorMulti 
+        <CardGeneratorMulti allowPdf={true} 
           title="Holerite / Contracheque" 
           description="Cálculo fictício de INSS, IRRF e salário líquido" 
           generatorFn={generateHolerite} 

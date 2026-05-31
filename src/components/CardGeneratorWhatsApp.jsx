@@ -110,10 +110,10 @@ function WhatsAppMockup() {
         
         {/* Marcador de Data */}
         <div className="flex justify-center mb-2 mt-1">
-          <span className={`text-[11px] px-3 py-1 rounded-full shadow-sm ${
+          <span className={`text-[11px] px-3 py-1 rounded-full ${
             osType === 'ios'
-              ? 'bg-white/70 text-[#8696a0] backdrop-blur-sm'
-              : 'bg-[#E1F3FB] dark:bg-[#182229] text-[#556269] dark:text-gray-400'
+              ? 'bg-white/70 text-[#8696a0]'
+              : 'bg-[#d4e8f0] dark:bg-[#182229] text-[#546b72] dark:text-gray-400 shadow-[0_1px_2px_rgba(0,0,0,0.12)]'
           }`}>
             Hoje
           </span>
@@ -136,13 +136,14 @@ function WhatsAppMockup() {
                 <ArrowLeftRight size={14} />
               </button>
 
-              <div className={`relative max-w-[85%] ${msg.type === 'image' ? 'p-1' : 'px-2 pt-1.5 pb-1.5'} rounded-2xl shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] text-[14.5px] leading-[19px] tracking-normal
+              {/* BALLOON INNER — flex col, metadata pinned bottom-right */}
+              <div className={`relative max-w-[85%] rounded-2xl shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] text-[14.2px] leading-[19px] overflow-hidden
                   ${msg.isMe 
                     ? (osType === 'ios' ? 'bg-[#E1F7CB] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' : 'bg-[#D9FDD3] text-black dark:bg-[#005c4b] dark:text-[#e9edef]')
                     : 'bg-white text-black dark:bg-[#202c33] dark:text-[#e9edef]'}
                   ${tailClass}`}
               >
-                {/* SVG Tail para o primeiro balão */}
+                {/* SVG Tail */}
                 {isFirstInSequence && (
                   msg.isMe ? (
                     <svg viewBox="0 0 8 13" width="8" height="13" className={`absolute top-0 -right-2 ${osType === 'ios' ? 'text-[#E1F7CB]' : 'text-[#D9FDD3]'} dark:text-[#005c4b] fill-current`}>
@@ -154,88 +155,100 @@ function WhatsAppMockup() {
                     </svg>
                   )
                 )}
-                {/* TEXT TYPE */}
-                {(!msg.type || msg.type === 'text') && (
-                  <span 
-                    className="break-words outline-none cursor-text block min-w-[20px] pr-10"
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
-                  >
-                    {msg.text}
-                  </span>
-                )}
 
-                {/* AUDIO TYPE */}
-                {msg.type === 'audio' && (
-                  <div className="flex items-center gap-2 w-56 sm:w-[260px] py-0.5">
-                    <div className="relative">
-                      <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                        <Mic size={18} className="text-white opacity-50" />
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#53bdeb] rounded-full flex items-center justify-center border-2 border-[#D9FDD3] dark:border-[#005c4b]">
-                        <Mic size={7} className="text-white" />
-                      </div>
-                    </div>
-                    <Play size={18} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0 ml-1" fill="currentColor" />
-                    <div className="flex flex-col flex-1 justify-center mt-1">
-                      <div className="flex items-center gap-[1px] h-4">
-                        {[2, 4, 3, 6, 8, 10, 6, 3, 5, 8, 12, 16, 14, 10, 8, 4, 2, 5, 7, 10, 12, 8, 4].map((h, i) => (
-                          <div key={i} className={`w-[2px] rounded-full bg-gray-400 dark:bg-gray-500`} style={{ height: `${Math.max(2, h * 0.7)}px` }} />
-                        ))}
-                      </div>
-                      <span className="text-[11px] text-gray-500 mt-1">0:15</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* IMAGE TYPE */}
-                {msg.type === 'image' && (
+                {/* IMAGE TYPE — full bleed sem padding */}
+                {msg.type === 'image' ? (
                   <div className="flex flex-col">
-                    <div className="aspect-square w-48 sm:w-56 rounded-lg bg-gradient-to-tr from-blue-400 to-emerald-400 flex items-center justify-center overflow-hidden mb-1 relative cursor-pointer group">
+                    <div className="aspect-square w-48 sm:w-56 rounded-lg bg-gradient-to-tr from-blue-400 to-emerald-400 flex items-center justify-center overflow-hidden relative cursor-pointer group">
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                       <ImageIcon size={48} className="text-white/80" />
+                      {/* Timestamp sobre a imagem */}
+                      <span className="absolute bottom-1.5 right-1.5 bg-black/40 text-white text-[10px] rounded-full px-1.5 py-0.5 flex items-center gap-0.5">
+                        {msg.time}
+                        {msg.isMe && <CheckCheck size={12} className="text-white" />}
+                      </span>
                     </div>
-                    <span 
-                      className="break-words outline-none cursor-text block min-w-[20px] px-1 pb-1"
-                      contentEditable={true}
-                      suppressContentEditableWarning={true}
-                      onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
-                    >
-                      {msg.text}
-                    </span>
-                  </div>
-                )}
-
-                {/* DOCUMENT TYPE */}
-                {msg.type === 'document' && (
-                  <div className="flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-md p-1.5 mb-1 w-56 sm:w-64 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                    <div className="bg-[#E53935] text-white p-1.5 rounded flex-shrink-0">
-                      <FileText size={22} strokeWidth={1.5} />
-                    </div>
-                    <div className="flex flex-col overflow-hidden">
-                      <span 
-                        className="text-[14px] font-semibold truncate outline-none cursor-text"
+                    {msg.text && msg.text !== 'Imagem anexa' && (
+                      <span
+                        className="break-words outline-none cursor-text block min-w-[20px] px-2 pt-1 pb-1 text-[14.2px]"
                         contentEditable={true}
                         suppressContentEditableWarning={true}
                         onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
                       >
                         {msg.text}
                       </span>
-                      <span className="text-[11px] text-gray-500 dark:text-gray-400">2.4 MB • PDF</span>
+                    )}
+                  </div>
+                ) : (
+                  /* Todos os outros tipos: padding + meta na bottom */
+                  <div className="px-2 pt-1.5 pb-1">
+
+                    {/* TEXT TYPE */}
+                    {(!msg.type || msg.type === 'text') && (
+                      <span
+                        className="break-words outline-none cursor-text block min-w-[20px]"
+                        contentEditable={true}
+                        suppressContentEditableWarning={true}
+                        onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
+                      >
+                        {msg.text}
+                      </span>
+                    )}
+
+                    {/* AUDIO TYPE */}
+                    {msg.type === 'audio' && (
+                      <div className="flex items-center gap-2 w-52 sm:w-[240px] py-0.5">
+                        <div className="relative flex-shrink-0">
+                          <div className="w-9 h-9 rounded-full bg-slate-400/70 dark:bg-slate-600 flex items-center justify-center">
+                            <Mic size={18} className="text-white" />
+                          </div>
+                          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#53bdeb] rounded-full flex items-center justify-center border-[1.5px] border-[#D9FDD3] dark:border-[#005c4b]">
+                            <Mic size={7} className="text-white" />
+                          </div>
+                        </div>
+                        <Play size={16} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0" fill="currentColor" />
+                        <div className="flex flex-col flex-1 min-w-0">
+                          <div className="flex items-end gap-[1.5px] h-5">
+                            {[2,3,5,8,11,14,12,9,6,4,7,10,13,15,11,8,5,3,6,9,12,10,7,4,2].map((h, i) => (
+                              <div key={i} className="w-[1.5px] rounded-full bg-gray-400/80 dark:bg-gray-500" style={{ height: `${Math.max(2, h * 0.85)}px` }} />
+                            ))}
+                          </div>
+                          <span className="text-[10px] text-gray-400 mt-0.5">0:15</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* DOCUMENT TYPE — ícone círculo cinza estilo WhatsApp */}
+                    {msg.type === 'document' && (
+                      <div className="flex items-center gap-2.5 w-56 sm:w-64 cursor-pointer py-0.5">
+                        {/* Círculo cinza com ícone branco minimalista */}
+                        <div className="w-10 h-10 rounded-full bg-slate-400/80 dark:bg-slate-500 flex items-center justify-center flex-shrink-0">
+                          <FileText size={20} strokeWidth={1.5} className="text-white" />
+                        </div>
+                        <div className="flex flex-col flex-1 overflow-hidden">
+                          <span
+                            className="text-[13.5px] font-medium truncate outline-none cursor-text leading-tight"
+                            contentEditable={true}
+                            suppressContentEditableWarning={true}
+                            onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
+                          >
+                            {msg.text}
+                          </span>
+                          <span className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">2.4 MB • PDF</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* TIMESTAMP compacto — alinhado flex-end abaixo do conteúdo */}
+                    <div className="flex justify-end items-center gap-0.5 mt-0.5">
+                      <span className={`text-[10.5px] leading-none ${
+                        msg.isMe ? 'text-[#7fa37e] dark:text-[#8696a0]' : 'text-gray-400 dark:text-[#8696a0]'
+                      }`}>{msg.time}</span>
+                      {msg.isMe && <CheckCheck size={13} className="text-[#53bdeb] flex-shrink-0" />}
                     </div>
+
                   </div>
                 )}
-
-                {/* TIMESTAMPS - compactos, colados ao texto */}
-                <span className={`text-[10px] dark:text-[#8696a0] flex items-center gap-0.5 float-right ml-1 mt-0.5 -mb-0.5 translate-y-0.5 ${
-                  msg.type === 'image' && msg.text === 'Imagem anexa'
-                    ? 'absolute bottom-1.5 right-1.5 bg-black/35 text-white rounded-full px-1.5 py-0.5'
-                    : (msg.isMe ? 'text-[#7fa37e] dark:text-[#8696a0]' : 'text-gray-400 dark:text-[#8696a0]')
-                }`}>
-                  {msg.time}
-                  {msg.isMe && <CheckCheck size={13} className={msg.type === 'image' && msg.text === 'Imagem anexa' ? 'text-white' : 'text-[#53bdeb]'} />}
-                </span>
               </div>
             </div>
           )

@@ -13,23 +13,30 @@ function WhatsAppMockup() {
     showHeader, showFooter, showStatusBar, contactStatus, osType
   } = useChatSimulation();
 
-  // Wallpaper pattern sutil (opacity 0.01)
+  // Wallpaper pattern sutil (opacity 0.012)
   const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.012' fill-rule='evenodd'/%3E%3C/svg%3E";
+
+  // Fontes nativas por SO
+  const fontFamily = osType === 'ios'
+    ? '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", sans-serif'
+    : 'Roboto, "Helvetica Neue", Arial, sans-serif';
 
   return (
     <div 
       className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-black/5 dark:border-white/5 flex flex-col select-none relative" 
-      style={{ height: '450px', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro", Roboto, Helvetica, Arial, sans-serif' }}
+      style={{ height: '450px', fontFamily }}
     >
       
       {/* Status Bar (OS) */}
       {showStatusBar && (
         <div className={`px-5 py-1 flex justify-between items-center text-[12px] font-medium z-20 ${
-          osType === 'ios' ? 'bg-[#f6f6f6] text-black dark:bg-[#1c1c1e] dark:text-white' : 'bg-[#054c44] dark:bg-[#111b21] text-white/90'
+          osType === 'ios'
+            ? 'bg-[#f6f6f6]/90 text-black dark:bg-[#1c1c1e]/90 dark:text-white'
+            : 'bg-[#054c44] dark:bg-[#111b21] text-white/90'
         }`}>
           {osType === 'ios' ? (
             <>
-              <span>09:41</span>
+              <span className="font-semibold">09:41</span>
               {/* Dynamic Island simulada */}
               <div className="w-[96px] h-[28px] bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-1.5"></div>
               <div className="flex items-center gap-1.5">
@@ -54,16 +61,43 @@ function WhatsAppMockup() {
 
       {/* Cabeçalho */}
       {showHeader && (
-        <div className={`px-3 py-2 h-[60px] flex items-center z-10 shadow-sm relative ${
-          osType === 'ios' ? 'bg-[#f6f6f6] text-black dark:bg-[#1c1c1e] dark:text-white border-b border-gray-300 dark:border-gray-800' : 'bg-[#075E54] dark:bg-[#202c33] text-white'
-        }`}>
-          <ArrowLeft size={22} strokeWidth={1.5} className={`mr-1 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`} />
+        <div
+          className={`px-3 py-2 h-[60px] flex items-center z-10 shadow-sm relative ${
+            osType === 'ios'
+              ? 'border-b border-gray-200 dark:border-gray-800'
+              : 'bg-[#075E54] dark:bg-[#202c33] text-white'
+          }`}
+          style={osType === 'ios' ? {
+            backgroundColor: 'rgba(246,246,246,0.85)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          } : {}}
+        >
+          {/* Botão Voltar - iOS style */}
+          {osType === 'ios' ? (
+            <div className="flex items-center cursor-pointer mr-2" style={{ color: '#007AFF' }}>
+              <ArrowLeft size={22} strokeWidth={2} />
+              <span className="text-[16px] font-normal ml-0.5">Voltar</span>
+            </div>
+          ) : (
+            <ArrowLeft size={22} strokeWidth={1.5} className="mr-1 opacity-80 cursor-pointer" />
+          )}
+
           <div className="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-600 mr-2.5 flex-shrink-0 cursor-pointer"></div>
           <div className="flex flex-col flex-1 leading-tight cursor-pointer">
-            <span className={`truncate max-w-[150px] tracking-tight ${osType === 'ios' ? 'text-[15px] font-medium text-black dark:text-white' : 'text-[15px] font-semibold text-white'}`}>{contactName}</span>
-            {contactStatus && <span className={`text-[11px] mt-[-1px] ${osType === 'ios' ? 'text-gray-400 dark:text-gray-500' : 'text-white/70'}`}>{contactStatus}</span>}
+            <span className={`truncate max-w-[150px] tracking-tight ${
+              osType === 'ios'
+                ? 'text-[15px] font-semibold text-black dark:text-white'
+                : 'text-[15px] font-semibold text-white'
+            }`}>{contactName}</span>
+            {contactStatus && (
+              <span className={`text-[11px] mt-[-1px] ${
+                osType === 'ios' ? 'text-gray-400 dark:text-gray-500' : 'text-white/70'
+              }`}>{contactStatus}</span>
+            )}
           </div>
-          <div className={`flex items-center gap-4 px-2 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`}>
+          {/* Ícones do cabeçalho */}
+          <div className="flex items-center gap-4 px-1 cursor-pointer" style={{ color: osType === 'ios' ? '#007AFF' : 'rgba(255,255,255,0.85)' }}>
             <Video size={24} strokeWidth={1.5} />
             <Phone size={20} strokeWidth={1.5} />
             {osType !== 'ios' && <MoreVertical size={20} strokeWidth={1.5} />}
@@ -75,8 +109,12 @@ function WhatsAppMockup() {
       <div className="bg-[#EFEAE2] dark:bg-[#0b141a] flex-1 px-3 pb-2 pt-1 flex flex-col space-y-0 overflow-y-auto no-scrollbar relative" style={{ backgroundImage: `url("${bgPattern}")` }}>
         
         {/* Marcador de Data */}
-        <div className="flex justify-center mb-3 mt-1">
-          <span className="bg-[#E1F3FB] dark:bg-[#182229] text-[#556269] dark:text-gray-400 text-[11px] px-3 py-1 rounded-lg shadow-sm">
+        <div className="flex justify-center mb-2 mt-1">
+          <span className={`text-[11px] px-3 py-1 rounded-full shadow-sm ${
+            osType === 'ios'
+              ? 'bg-white/70 text-[#8696a0] backdrop-blur-sm'
+              : 'bg-[#E1F3FB] dark:bg-[#182229] text-[#556269] dark:text-gray-400'
+          }`}>
             Hoje
           </span>
         </div>
@@ -119,7 +157,7 @@ function WhatsAppMockup() {
                 {/* TEXT TYPE */}
                 {(!msg.type || msg.type === 'text') && (
                   <span 
-                    className="break-words outline-none cursor-text block min-w-[20px]"
+                    className="break-words outline-none cursor-text block min-w-[20px] pr-10"
                     contentEditable={true}
                     suppressContentEditableWarning={true}
                     onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
@@ -189,10 +227,14 @@ function WhatsAppMockup() {
                   </div>
                 )}
 
-                {/* TIMESTAMPS */}
-                <span className={`text-[10px] text-gray-500 dark:text-[#8696a0] ml-3 float-right translate-y-1 flex items-center gap-1 ${msg.type === 'image' && msg.text === 'Imagem anexa' ? 'absolute bottom-2 right-2 bg-black/30 text-white rounded-full px-2 py-0.5' : ''}`}>
+                {/* TIMESTAMPS - compactos, colados ao texto */}
+                <span className={`text-[10px] dark:text-[#8696a0] flex items-center gap-0.5 float-right ml-1 mt-0.5 -mb-0.5 translate-y-0.5 ${
+                  msg.type === 'image' && msg.text === 'Imagem anexa'
+                    ? 'absolute bottom-1.5 right-1.5 bg-black/35 text-white rounded-full px-1.5 py-0.5'
+                    : (msg.isMe ? 'text-[#7fa37e] dark:text-[#8696a0]' : 'text-gray-400 dark:text-[#8696a0]')
+                }`}>
                   {msg.time}
-                  {msg.isMe && <CheckCheck size={14} className={msg.type === 'image' && msg.text === 'Imagem anexa' ? 'text-white' : 'text-[#53bdeb]'} />}
+                  {msg.isMe && <CheckCheck size={13} className={msg.type === 'image' && msg.text === 'Imagem anexa' ? 'text-white' : 'text-[#53bdeb]'} />}
                 </span>
               </div>
             </div>
@@ -202,20 +244,46 @@ function WhatsAppMockup() {
 
       {/* Rodapé (Barra de Digitação) */}
       {showFooter && (
-        <div className="bg-[#F0F2F5] dark:bg-[#202c33] p-2 px-3 flex items-center gap-2 z-10 w-full relative">
-          <div className="flex-1 bg-white dark:bg-[#2a3942] rounded-full flex items-center px-2 py-1.5 shadow-sm relative">
-            <Smile size={24} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-            <div className="flex-1 text-[15px] text-gray-500 dark:text-[#8696a0] cursor-text px-2">
+        <div className={`p-2 px-3 flex items-center gap-2 z-10 w-full relative ${
+          osType === 'ios' ? 'bg-white/80 border-t border-gray-200 dark:border-gray-800 dark:bg-[#1c1c1e]/80' : 'bg-[#F0F2F5] dark:bg-[#202c33]'
+        }`} style={osType === 'ios' ? { backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' } : {}}>
+          {/* iOS: botão + à esquerda */}
+          {osType === 'ios' && (
+            <div className="w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 cursor-pointer" style={{ borderColor: '#007AFF', color: '#007AFF' }}>
+              <span className="text-lg font-light leading-none mb-0.5">+</span>
+            </div>
+          )}
+          <div className={`flex-1 flex items-center px-2 py-1.5 relative ${
+            osType === 'ios'
+              ? 'bg-white dark:bg-[#2a3942] rounded-full border border-gray-300 dark:border-gray-700'
+              : 'bg-white dark:bg-[#2a3942] rounded-full shadow-sm'
+          }`}>
+            {osType !== 'ios' && (
+              <Smile size={24} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
+            )}
+            <div className="flex-1 text-[15px] text-gray-400 dark:text-[#8696a0] cursor-text px-2">
               Mensagem
             </div>
-            <div className="flex items-center gap-3 pr-2">
-              <Paperclip size={20} className="text-gray-500 dark:text-[#8696a0] flex-shrink-0 cursor-pointer" />
-              <Camera size={22} className="text-gray-500 dark:text-[#8696a0] flex-shrink-0 cursor-pointer" />
+            <div className="flex items-center gap-2.5 pr-1">
+              {osType === 'ios' ? (
+                <>
+                  <Camera size={22} strokeWidth={1.5} className="flex-shrink-0 cursor-pointer" style={{ color: '#007AFF' }} />
+                  <Mic size={20} strokeWidth={1.5} className="flex-shrink-0 cursor-pointer" style={{ color: '#007AFF' }} />
+                </>
+              ) : (
+                <>
+                  <Paperclip size={20} className="text-gray-500 dark:text-[#8696a0] flex-shrink-0 cursor-pointer" />
+                  <Camera size={22} className="text-gray-500 dark:text-[#8696a0] flex-shrink-0 cursor-pointer" />
+                </>
+              )}
             </div>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[#00A884] flex items-center justify-center flex-shrink-0 text-white cursor-pointer shadow-sm">
-            <Mic size={20} />
-          </div>
+          {/* Android: botão mic verde separado */}
+          {osType !== 'ios' && (
+            <div className="w-10 h-10 rounded-full bg-[#00A884] flex items-center justify-center flex-shrink-0 text-white cursor-pointer shadow-sm">
+              <Mic size={20} />
+            </div>
+          )}
         </div>
       )}
     </div>

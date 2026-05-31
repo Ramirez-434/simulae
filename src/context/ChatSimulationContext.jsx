@@ -22,7 +22,7 @@ export function ChatSimulationProvider({ children }) {
       const textWithoutTime = line.replace(/\[\d{2}:\d{2}\]\s*/, '');
       const isMe = textWithoutTime.startsWith('Você:') || index % 2 !== 0; 
       const cleanText = textWithoutTime.replace(/.*?:\s*/, '');
-      return { id: crypto.randomUUID(), time, text: cleanText, isMe };
+      return { id: crypto.randomUUID(), time, type: 'text', text: cleanText, isMe };
     });
     setMessages(newMessages);
   }, []);
@@ -35,9 +35,13 @@ export function ChatSimulationProvider({ children }) {
     setMessages(prev => prev.map(m => m.id === id ? { ...m, isMe: !m.isMe } : m));
   }, []);
 
-  const addMessage = useCallback(() => {
+  const addMessage = useCallback((type = 'text') => {
     const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    setMessages(prev => [...prev, { id: crypto.randomUUID(), time, text: "Nova mensagem", isMe: true }]);
+    let text = "Nova mensagem";
+    if (type === 'audio') text = "Áudio (0:15)";
+    if (type === 'image') text = "Imagem anexa";
+    if (type === 'document') text = "relatorio.pdf";
+    setMessages(prev => [...prev, { id: crypto.randomUUID(), time, type, text, isMe: true }]);
   }, []);
 
   return (

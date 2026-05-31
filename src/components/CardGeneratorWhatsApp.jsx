@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { RefreshCw, ArrowLeft, Video, Phone, MoreVertical, CheckCheck, Smile, Paperclip, Camera, Mic, ArrowLeftRight, Wifi, Battery, SignalHigh } from 'lucide-react';
+import { RefreshCw, ArrowLeft, Video, Phone, MoreVertical, CheckCheck, Smile, Paperclip, Camera, Mic, ArrowLeftRight, Wifi, Battery, SignalHigh, Play, FileText, Image as ImageIcon } from 'lucide-react';
 import CopyButton from './CopyButton';
 import useCardShortcuts from '../hooks/useCardShortcuts';
 import { motion } from 'framer-motion';
@@ -91,23 +91,81 @@ function WhatsAppMockup() {
                 <ArrowLeftRight size={14} />
               </button>
 
-              <div className={`relative max-w-[85%] px-2.5 pt-1.5 pb-2 rounded-lg shadow-sm text-[14.5px] leading-snug tracking-tight
+              <div className={`relative max-w-[85%] ${msg.type === 'image' ? 'p-1' : 'px-2.5 pt-1.5 pb-2'} rounded-lg shadow-sm text-[14.5px] leading-snug tracking-tight
                   ${msg.isMe 
                     ? 'bg-[#DCF8C6] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' 
                     : 'bg-white text-black dark:bg-[#202c33] dark:text-[#e9edef]'}
                   ${tailClass}`}
               >
-                <span 
-                  className="break-words outline-none cursor-text block min-w-[20px]"
-                  contentEditable={true}
-                  suppressContentEditableWarning={true}
-                  onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
-                >
-                  {msg.text}
-                </span>
-                <span className="text-[10px] text-gray-500 dark:text-[#8696a0] ml-3 float-right translate-y-1 flex items-center gap-1">
+                {/* TEXT TYPE */}
+                {(!msg.type || msg.type === 'text') && (
+                  <span 
+                    className="break-words outline-none cursor-text block min-w-[20px]"
+                    contentEditable={true}
+                    suppressContentEditableWarning={true}
+                    onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
+                  >
+                    {msg.text}
+                  </span>
+                )}
+
+                {/* AUDIO TYPE */}
+                {msg.type === 'audio' && (
+                  <div className="flex items-center gap-3 w-56 sm:w-64 py-1">
+                    <div className="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                      <Mic size={20} className="text-white opacity-50" />
+                    </div>
+                    <Play size={24} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0" fill="currentColor" />
+                    <div className="flex-1 flex items-center gap-0.5 h-6">
+                      {[2, 4, 3, 6, 8, 10, 6, 3, 5, 8, 12, 16, 14, 10, 8, 4, 2].map((h, i) => (
+                        <div key={i} className={`w-1 rounded-full ${msg.isMe ? 'bg-[#128C7E] dark:bg-emerald-400' : 'bg-gray-400 dark:bg-gray-500'}`} style={{ height: `${h}px` }} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* IMAGE TYPE */}
+                {msg.type === 'image' && (
+                  <div className="flex flex-col">
+                    <div className="aspect-square w-48 sm:w-56 rounded-md bg-gradient-to-tr from-blue-400 to-emerald-400 flex items-center justify-center overflow-hidden mb-1 relative cursor-pointer group">
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                      <ImageIcon size={48} className="text-white/80" />
+                    </div>
+                    <span 
+                      className="break-words outline-none cursor-text block min-w-[20px] px-1 pb-1"
+                      contentEditable={true}
+                      suppressContentEditableWarning={true}
+                      onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
+                    >
+                      {msg.text}
+                    </span>
+                  </div>
+                )}
+
+                {/* DOCUMENT TYPE */}
+                {msg.type === 'document' && (
+                  <div className="flex items-center gap-3 bg-black/5 dark:bg-white/5 rounded-md p-2 mb-1 w-56 sm:w-64 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                    <div className="bg-[#E53935] text-white p-2 rounded flex-shrink-0">
+                      <FileText size={24} />
+                    </div>
+                    <div className="flex flex-col overflow-hidden">
+                      <span 
+                        className="text-[14px] font-semibold truncate outline-none cursor-text"
+                        contentEditable={true}
+                        suppressContentEditableWarning={true}
+                        onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
+                      >
+                        {msg.text}
+                      </span>
+                      <span className="text-[11px] text-gray-500 dark:text-gray-400">2.4 MB • PDF</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* TIMESTAMPS */}
+                <span className={`text-[10px] text-gray-500 dark:text-[#8696a0] ml-3 float-right translate-y-1 flex items-center gap-1 ${msg.type === 'image' && msg.text === 'Imagem anexa' ? 'absolute bottom-2 right-2 bg-black/30 text-white rounded-full px-2 py-0.5' : ''}`}>
                   {msg.time}
-                  {msg.isMe && <CheckCheck size={14} className="text-[#53bdeb]" />}
+                  {msg.isMe && <CheckCheck size={14} className={msg.type === 'image' && msg.text === 'Imagem anexa' ? 'text-white' : 'text-[#53bdeb]'} />}
                 </span>
               </div>
             </div>

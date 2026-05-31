@@ -13,12 +13,12 @@ function WhatsAppMockup() {
     showHeader, showFooter, showStatusBar, contactStatus, osType
   } = useChatSimulation();
 
-  // Wallpaper pattern sutil (opacity 0.02)
-  const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E";
+  // Wallpaper pattern sutil (opacity 0.01)
+  const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.012' fill-rule='evenodd'/%3E%3C/svg%3E";
 
   return (
     <div 
-      className="w-full mt-2 mb-4 rounded-xl overflow-hidden shadow-none ring-1 ring-black/5 dark:ring-white/5 flex flex-col select-none relative" 
+      className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-black/5 dark:border-white/5 flex flex-col select-none relative" 
       style={{ height: '450px', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro", Roboto, Helvetica, Arial, sans-serif' }}
     >
       
@@ -31,7 +31,7 @@ function WhatsAppMockup() {
             <>
               <span>09:41</span>
               {/* Dynamic Island simulada */}
-              <div className="w-[120px] h-[32px] bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-1.5"></div>
+              <div className="w-[96px] h-[28px] bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-1.5"></div>
               <div className="flex items-center gap-1.5">
                 <SignalHigh size={14} />
                 <Wifi size={14} />
@@ -57,16 +57,16 @@ function WhatsAppMockup() {
         <div className={`px-3 py-2 h-[60px] flex items-center z-10 shadow-sm relative ${
           osType === 'ios' ? 'bg-[#f6f6f6] text-black dark:bg-[#1c1c1e] dark:text-white border-b border-gray-300 dark:border-gray-800' : 'bg-[#075E54] dark:bg-[#202c33] text-white'
         }`}>
-          <ArrowLeft size={20} className={`mr-1 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`} />
-          <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 mr-3 flex-shrink-0 cursor-pointer"></div>
+          <ArrowLeft size={22} strokeWidth={1.5} className={`mr-1 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`} />
+          <div className="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-600 mr-2.5 flex-shrink-0 cursor-pointer"></div>
           <div className="flex flex-col flex-1 leading-tight cursor-pointer">
-            <span className="text-[16px] font-medium truncate max-w-[150px] tracking-tight">{contactName}</span>
-            {contactStatus && <span className={`text-[12px] mt-[-1px] ${osType === 'ios' ? 'text-gray-500 dark:text-gray-400' : 'text-white/70'}`}>{contactStatus}</span>}
+            <span className={`truncate max-w-[150px] tracking-tight ${osType === 'ios' ? 'text-[15px] font-medium text-black dark:text-white' : 'text-[15px] font-semibold text-white'}`}>{contactName}</span>
+            {contactStatus && <span className={`text-[11px] mt-[-1px] ${osType === 'ios' ? 'text-gray-400 dark:text-gray-500' : 'text-white/70'}`}>{contactStatus}</span>}
           </div>
-          <div className={`flex items-center gap-5 px-2 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`}>
-            <Video size={20} />
-            <Phone size={19} />
-            {osType !== 'ios' && <MoreVertical size={20} />}
+          <div className={`flex items-center gap-4 px-2 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`}>
+            <Video size={24} strokeWidth={1.5} />
+            <Phone size={20} strokeWidth={1.5} />
+            {osType !== 'ios' && <MoreVertical size={20} strokeWidth={1.5} />}
           </div>
         </div>
       )}
@@ -100,14 +100,14 @@ function WhatsAppMockup() {
 
               <div className={`relative max-w-[85%] ${msg.type === 'image' ? 'p-1' : 'px-2 pt-1.5 pb-1.5'} rounded-2xl shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] text-[14.5px] leading-[19px] tracking-normal
                   ${msg.isMe 
-                    ? (osType === 'ios' ? 'bg-[#E2F7CB] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' : 'bg-[#D9FDD3] text-black dark:bg-[#005c4b] dark:text-[#e9edef]')
+                    ? (osType === 'ios' ? 'bg-[#E1F7CB] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' : 'bg-[#D9FDD3] text-black dark:bg-[#005c4b] dark:text-[#e9edef]')
                     : 'bg-white text-black dark:bg-[#202c33] dark:text-[#e9edef]'}
                   ${tailClass}`}
               >
                 {/* SVG Tail para o primeiro balão */}
                 {isFirstInSequence && (
                   msg.isMe ? (
-                    <svg viewBox="0 0 8 13" width="8" height="13" className={`absolute top-0 -right-2 ${osType === 'ios' ? 'text-[#E2F7CB]' : 'text-[#D9FDD3]'} dark:text-[#005c4b] fill-current`}>
+                    <svg viewBox="0 0 8 13" width="8" height="13" className={`absolute top-0 -right-2 ${osType === 'ios' ? 'text-[#E1F7CB]' : 'text-[#D9FDD3]'} dark:text-[#005c4b] fill-current`}>
                       <path d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z" />
                     </svg>
                   ) : (
@@ -171,9 +171,9 @@ function WhatsAppMockup() {
 
                 {/* DOCUMENT TYPE */}
                 {msg.type === 'document' && (
-                  <div className="flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-md p-2 mb-1 w-56 sm:w-64 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                    <div className="bg-[#E53935] text-white p-2 rounded flex-shrink-0">
-                      <FileText size={24} />
+                  <div className="flex items-center gap-2 bg-black/5 dark:bg-white/5 rounded-md p-1.5 mb-1 w-56 sm:w-64 cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+                    <div className="bg-[#E53935] text-white p-1.5 rounded flex-shrink-0">
+                      <FileText size={22} strokeWidth={1.5} />
                     </div>
                     <div className="flex flex-col overflow-hidden">
                       <span 

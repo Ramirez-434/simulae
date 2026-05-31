@@ -3,10 +3,11 @@ import { RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CopyButton from './CopyButton';
 import BulkDownload from './BulkDownload';
+import ExportPDFButton from './ExportPDFButton';
 import useCardShortcuts from '../hooks/useCardShortcuts';
 import { useHistory } from '../context/HistoryContext';
 
-export default function CardGeneratorMulti({ title, description, generatorFn, allowBulk = true, children }) {
+export default function CardGeneratorMulti({ title, description, generatorFn, allowBulk = true, allowPdf = false, children }) {
   const [value, setValue] = useState('');
   const [isHovered, setIsHovered] = useState(false);
   const { addHistoryItem } = useHistory();
@@ -59,6 +60,7 @@ export default function CardGeneratorMulti({ title, description, generatorFn, al
           {value}
         </div>
         <div className="flex gap-2 justify-end">
+          {allowPdf && <ExportPDFButton title={title} content={value} />}
           {allowBulk && <BulkDownload title={title} generatorFn={generatorFn} />}
           <CopyButton text={value} />
           <motion.button

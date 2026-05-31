@@ -99,6 +99,7 @@ export default function Financas() {
             title="Nota Fiscal (NF-e)" 
             description="Simulação de Danfe/NFe" 
             generatorFn={() => generateNFe()} 
+            allowPdf={true}
           />
         </div>
       </div>
@@ -110,11 +111,13 @@ export default function Financas() {
             title="Recibo de Pagamento" 
             description="Modelo genérico" 
             generatorFn={() => generateReceipt()} 
+            allowPdf={true}
           />
           <CardGeneratorMulti 
             title="Contrato de Locação" 
             description="Cláusulas simples" 
             generatorFn={() => generateRentalContract()} 
+            allowPdf={true}
           />
         </div>
       </div>

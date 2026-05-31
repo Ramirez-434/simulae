@@ -4,18 +4,19 @@ export function useTheme() {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
-    // Check local storage or system preference
-    const stored = localStorage.getItem('simulae_theme');
-    if (stored) {
+    const handleThemeChange = () => {
+      const stored = localStorage.getItem('simulae_theme') || 'dark';
       setTheme(stored);
       if (stored === 'dark') document.documentElement.classList.add('dark');
       else document.documentElement.classList.remove('dark');
-    } else {
-      // Default to dark
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('simulae_theme', 'dark');
-    }
+    };
+
+    // Initial check
+    handleThemeChange();
+
+    // Listen for custom event
+    window.addEventListener('theme-changed', handleThemeChange);
+    return () => window.removeEventListener('theme-changed', handleThemeChange);
   }, []);
 
   const toggleTheme = () => {
@@ -27,6 +28,7 @@ export function useTheme() {
       } else {
         document.documentElement.classList.remove('dark');
       }
+      window.dispatchEvent(new Event('theme-changed'));
       return newTheme;
     });
   };

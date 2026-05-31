@@ -5,6 +5,13 @@ const ChatSimulationContext = createContext();
 export function ChatSimulationProvider({ children }) {
   const [messages, setMessages] = useState([]);
   const [contactName, setContactName] = useState('Contato Simulado');
+  
+  // Phase 2 UI States
+  const [showHeader, setShowHeader] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
+  const [showStatusBar, setShowStatusBar] = useState(true);
+  const [contactStatus, setContactStatus] = useState('visto por último hoje às 10:45');
+  const [osType, setOsType] = useState('ios'); // 'ios' or 'android'
 
   const parseRawText = useCallback((rawChatText) => {
     if (!rawChatText) return setMessages([]);
@@ -38,6 +45,11 @@ export function ChatSimulationProvider({ children }) {
       messages,
       contactName,
       setContactName,
+      showHeader, setShowHeader,
+      showFooter, setShowFooter,
+      showStatusBar, setShowStatusBar,
+      contactStatus, setContactStatus,
+      osType, setOsType,
       parseRawText,
       updateMessageText,
       toggleSender,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { RefreshCw, ArrowLeft, Video, Phone, MoreVertical, CheckCheck, Smile, Paperclip, Camera, Mic, ArrowLeftRight } from 'lucide-react';
+import { RefreshCw, ArrowLeft, Video, Phone, MoreVertical, CheckCheck, Smile, Paperclip, Camera, Mic, ArrowLeftRight, Wifi, Battery, SignalHigh } from 'lucide-react';
 import CopyButton from './CopyButton';
 import useCardShortcuts from '../hooks/useCardShortcuts';
 import { motion } from 'framer-motion';
@@ -8,7 +8,10 @@ import { ChatSimulationProvider, useChatSimulation } from '../context/ChatSimula
 import MockupControls from './MockupControls';
 
 function WhatsAppMockup() {
-  const { messages, contactName, updateMessageText, toggleSender } = useChatSimulation();
+  const { 
+    messages, contactName, updateMessageText, toggleSender,
+    showHeader, showFooter, showStatusBar, contactStatus, osType
+  } = useChatSimulation();
 
   // Wallpaper pattern sutil
   const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E";
@@ -16,20 +19,50 @@ function WhatsAppMockup() {
   return (
     <div className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-slate-700 shadow-xl flex flex-col font-sans select-none relative" style={{ height: '450px' }}>
       
+      {/* Status Bar (OS) */}
+      {showStatusBar && (
+        <div className={`px-4 py-1 flex justify-between items-center text-[11px] font-medium z-20 ${
+          osType === 'ios' ? 'bg-[#075E54] dark:bg-[#202c33] text-white/90' : 'bg-[#054c44] dark:bg-[#111b21] text-white/90'
+        }`}>
+          {osType === 'ios' ? (
+            <>
+              <span>10:45</span>
+              <div className="flex items-center gap-1.5">
+                <SignalHigh size={12} />
+                <Wifi size={12} />
+                <Battery size={14} />
+              </div>
+            </>
+          ) : (
+            <>
+              <span>10:45</span>
+              <div className="flex items-center gap-1.5">
+                <Wifi size={12} />
+                <SignalHigh size={12} />
+                <Battery size={14} />
+                <span className="ml-0.5 text-[10px]">100%</span>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
       {/* Cabeçalho */}
-      <div className="bg-[#075E54] dark:bg-[#202c33] p-2 flex items-center text-white z-10 shadow-sm relative">
-        <ArrowLeft size={20} className="mr-1 opacity-80 cursor-pointer" />
-        <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 mr-3 flex-shrink-0 cursor-pointer"></div>
-        <div className="flex flex-col flex-1 leading-tight cursor-pointer">
-          <span className="font-semibold text-[15px] truncate max-w-[150px]">{contactName}</span>
-          <span className="text-[11px] opacity-80">visto por último hoje às 10:00</span>
+      {showHeader && (
+        <div className="bg-[#075E54] dark:bg-[#202c33] p-2 flex items-center text-white z-10 shadow-sm relative">
+          <ArrowLeft size={20} className="mr-1 opacity-80 cursor-pointer" />
+          <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 mr-3 flex-shrink-0 cursor-pointer"></div>
+          <div className="flex flex-col flex-1 leading-tight cursor-pointer">
+            <span className="font-semibold text-[15px] truncate max-w-[150px]">{contactName}</span>
+            {contactStatus && <span className="text-[11px] opacity-80">{contactStatus}</span>}
+          </div>
+          <div className="flex items-center gap-5 px-2 opacity-80 cursor-pointer">
+            <Video size={19} />
+            <Phone size={18} />
+            <MoreVertical size={20} />
+          </div>
         </div>
-        <div className="flex items-center gap-5 px-2 opacity-80 cursor-pointer">
-          <Video size={19} />
-          <Phone size={18} />
-          <MoreVertical size={20} />
-        </div>
-      </div>
+      )}
 
       {/* Corpo do Chat */}
       <div className="bg-[#E5DDD5] dark:bg-[#0b141a] flex-1 p-3 flex flex-col space-y-1 overflow-y-auto relative" style={{ backgroundImage: `url("${bgPattern}")` }}>
@@ -83,17 +116,19 @@ function WhatsAppMockup() {
       </div>
 
       {/* Rodapé (Barra de Digitação) */}
-      <div className="bg-[#f0f0f0] dark:bg-[#202c33] p-2 flex items-center gap-2 z-10">
-        <Smile size={24} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-        <Paperclip size={20} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-        <div className="flex-1 bg-white dark:bg-[#2a3942] rounded-full px-4 py-2 text-sm text-gray-500 dark:text-[#8696a0] cursor-text">
-          Mensagem
+      {showFooter && (
+        <div className="bg-[#f0f0f0] dark:bg-[#202c33] p-2 flex items-center gap-2 z-10">
+          <Smile size={24} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
+          <Paperclip size={20} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
+          <div className="flex-1 bg-white dark:bg-[#2a3942] rounded-full px-4 py-2 text-sm text-gray-500 dark:text-[#8696a0] cursor-text">
+            Mensagem
+          </div>
+          <Camera size={22} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
+          <div className="w-10 h-10 rounded-full bg-[#00A884] flex items-center justify-center flex-shrink-0 ml-1 text-white cursor-pointer shadow-sm">
+            <Mic size={20} />
+          </div>
         </div>
-        <Camera size={22} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-        <div className="w-10 h-10 rounded-full bg-[#00A884] flex items-center justify-center flex-shrink-0 ml-1 text-white cursor-pointer shadow-sm">
-          <Mic size={20} />
-        </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -141,11 +176,11 @@ function CardGeneratorWhatsAppInner({ title, description, generatorFn }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div>
-        <h3 className="text-lg font-semibold text-slate-100 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-2">
           {title}
-          {isHovered && <span className="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded ml-auto">Ativo</span>}
+          {isHovered && <span className="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded ml-auto">Ativo</span>}
         </h3>
-        {description && <p className="text-sm text-slate-400 mt-1">{description}</p>}
+        {description && <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{description}</p>}
       </div>
 
       <MockupControls />
@@ -157,7 +192,7 @@ function CardGeneratorWhatsAppInner({ title, description, generatorFn }) {
           whileTap={{ scale: 0.85, rotate: 90 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
           onClick={handleGenerate}
-          className="p-2 rounded-md hover:bg-slate-700 text-slate-300 transition-colors"
+          className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors"
           title="Gerar Novo (Space)"
         >
           <RefreshCw size={18} />

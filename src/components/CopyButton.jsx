@@ -25,8 +25,8 @@ export default function CopyButton({ text, label }) {
       onClick={handleCopy}
       className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-all duration-300 ${
         copied 
-          ? 'bg-emerald-500/20 text-emerald-400' 
-          : 'bg-white/5 hover:bg-white/10 text-slate-300'
+          ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' 
+          : 'bg-slate-200/50 dark:bg-white/5 hover:bg-slate-300/50 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300'
       }`}
       title="Copiar (Ctrl+C no hover)"
     >

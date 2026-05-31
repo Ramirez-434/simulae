@@ -60,8 +60,8 @@ export default function BulkDownload({ title, generatorFn, quantity = 100 }) {
       disabled={isGenerating}
       className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-all duration-300 w-full sm:w-auto justify-center ${
         isDone 
-          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
-          : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-transparent hover:border-white/10'
+          ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' 
+          : 'bg-slate-200/50 dark:bg-white/5 hover:bg-slate-300/50 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 border border-transparent hover:border-slate-300 dark:hover:border-white/10'
       }`}
       title={`Baixar ${quantity} registros`}
     >

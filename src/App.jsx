@@ -72,9 +72,9 @@ function App() {
 
   return (
     <HistoryProvider>
-      <div className={`relative min-h-screen ${theme === 'dark' ? 'bg-[#050505] text-slate-200' : 'bg-slate-50 text-slate-800'} overflow-hidden font-sans z-0`}>
+      <div className={`relative min-h-screen bg-slate-50 text-slate-800 dark:bg-[#050505] dark:text-slate-200 overflow-hidden font-sans z-0`}>
         <Toaster theme={theme === 'dark' ? 'dark' : 'light'} position="bottom-center" toastOptions={{
-          className: 'glass-panel !bg-slate-900/90 !text-slate-100 !border-white/10'
+          className: 'glass-panel !bg-white/90 dark:!bg-slate-900/90 !text-slate-800 dark:!text-slate-100 !border-slate-200 dark:!border-white/10'
         }} />
         <CommandPalette setActiveTab={setActiveTab} />
         <HistoryPanel isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />

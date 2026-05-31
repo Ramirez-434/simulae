@@ -47,16 +47,16 @@ export default function CardGeneratorMulti({ title, description, generatorFn, al
       onMouseLeave={() => setIsHovered(false)}
     >
       <div>
-        <h3 className="text-lg font-semibold text-slate-100 flex items-center gap-2 font-satoshi">
+        <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-2 font-satoshi">
           {title}
-          {isHovered && <span className="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded ml-auto font-sans">Ativo</span>}
+          {isHovered && <span className="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded ml-auto font-sans">Ativo</span>}
         </h3>
-        <p className="text-sm text-slate-400 mt-1">{description}</p>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{description}</p>
         {children && <div className="mt-2">{children}</div>}
       </div>
 
       <div className="flex flex-col gap-2 mt-auto">
-        <div className="flex-1 bg-slate-900/50 border border-slate-700 rounded-lg p-3 font-mono text-sm text-emerald-400 whitespace-pre-wrap break-words min-h-[80px]">
+        <div className="flex-1 bg-slate-100 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 rounded-lg p-3 font-mono text-sm text-emerald-600 dark:text-emerald-400 whitespace-pre-wrap break-words min-h-[80px]">
           {value}
         </div>
         <div className="flex gap-2 justify-end">
@@ -67,7 +67,7 @@ export default function CardGeneratorMulti({ title, description, generatorFn, al
             whileTap={{ scale: 0.85, rotate: 90 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
             onClick={handleGenerate}
-            className="p-2 rounded-md hover:bg-slate-700 text-slate-300 transition-colors"
+            className="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors"
             title="Gerar Novo (Space)"
           >
             <RefreshCw size={18} />

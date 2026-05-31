@@ -13,24 +13,29 @@ function WhatsAppMockup() {
     showHeader, showFooter, showStatusBar, contactStatus, osType
   } = useChatSimulation();
 
-  // Wallpaper pattern sutil
-  const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E";
+  // Wallpaper pattern sutil (opacity 0.05)
+  const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E";
 
   return (
-    <div className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-slate-700 shadow-xl flex flex-col font-sans select-none relative" style={{ height: '450px' }}>
+    <div 
+      className="w-full mt-2 mb-4 rounded-xl overflow-hidden border border-slate-700 shadow-xl flex flex-col select-none relative" 
+      style={{ height: '450px', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro", Roboto, Helvetica, Arial, sans-serif' }}
+    >
       
       {/* Status Bar (OS) */}
       {showStatusBar && (
-        <div className={`px-4 py-1 flex justify-between items-center text-[11px] font-medium z-20 ${
-          osType === 'ios' ? 'bg-[#075E54] dark:bg-[#202c33] text-white/90' : 'bg-[#054c44] dark:bg-[#111b21] text-white/90'
+        <div className={`px-5 py-1 flex justify-between items-center text-[12px] font-medium z-20 ${
+          osType === 'ios' ? 'bg-[#f6f6f6] text-black dark:bg-[#1c1c1e] dark:text-white' : 'bg-[#054c44] dark:bg-[#111b21] text-white/90'
         }`}>
           {osType === 'ios' ? (
             <>
-              <span>10:45</span>
+              <span>09:41</span>
+              {/* Dynamic Island simulada */}
+              <div className="w-20 h-6 bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-1.5"></div>
               <div className="flex items-center gap-1.5">
-                <SignalHigh size={12} />
-                <Wifi size={12} />
-                <Battery size={14} />
+                <SignalHigh size={14} />
+                <Wifi size={14} />
+                <Battery size={16} />
               </div>
             </>
           ) : (
@@ -49,23 +54,25 @@ function WhatsAppMockup() {
 
       {/* Cabeçalho */}
       {showHeader && (
-        <div className="bg-[#075E54] dark:bg-[#202c33] p-2 flex items-center text-white z-10 shadow-sm relative">
-          <ArrowLeft size={20} className="mr-1 opacity-80 cursor-pointer" />
-          <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 mr-3 flex-shrink-0 cursor-pointer"></div>
+        <div className={`p-2 flex items-center z-10 shadow-sm relative ${
+          osType === 'ios' ? 'bg-[#f6f6f6] text-black dark:bg-[#1c1c1e] dark:text-white border-b border-gray-300 dark:border-gray-800' : 'bg-[#075E54] dark:bg-[#202c33] text-white'
+        }`}>
+          <ArrowLeft size={20} className={`mr-1 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`} />
+          <div className="w-8 h-8 rounded-full bg-slate-300 dark:bg-slate-600 mr-3 flex-shrink-0 cursor-pointer"></div>
           <div className="flex flex-col flex-1 leading-tight cursor-pointer">
-            <span className="font-semibold text-[15px] truncate max-w-[150px]">{contactName}</span>
-            {contactStatus && <span className="text-[11px] opacity-80">{contactStatus}</span>}
+            <span className="font-semibold text-[15px] truncate max-w-[150px] tracking-normal">{contactName}</span>
+            {contactStatus && <span className="text-[11px] opacity-80 mt-[-1px]">{contactStatus}</span>}
           </div>
-          <div className="flex items-center gap-5 px-2 opacity-80 cursor-pointer">
-            <Video size={19} />
-            <Phone size={18} />
-            <MoreVertical size={20} />
+          <div className={`flex items-center gap-5 px-2 opacity-80 cursor-pointer ${osType === 'ios' ? 'text-blue-500' : ''}`}>
+            <Video size={20} />
+            <Phone size={19} />
+            {osType !== 'ios' && <MoreVertical size={20} />}
           </div>
         </div>
       )}
 
       {/* Corpo do Chat */}
-      <div className="bg-[#E5DDD5] dark:bg-[#0b141a] flex-1 p-3 flex flex-col space-y-1 overflow-y-auto relative" style={{ backgroundImage: `url("${bgPattern}")` }}>
+      <div className="bg-[#EFEAE2] dark:bg-[#0b141a] flex-1 p-3 flex flex-col space-y-0 overflow-y-auto relative" style={{ backgroundImage: `url("${bgPattern}")` }}>
         
         {/* Marcador de Data */}
         <div className="flex justify-center mb-3 mt-1">
@@ -77,11 +84,11 @@ function WhatsAppMockup() {
         {messages.map((msg, index) => {
           const isFirstInSequence = index === 0 || messages[index - 1].isMe !== msg.isMe;
           const tailClass = isFirstInSequence 
-            ? (msg.isMe ? 'rounded-tr-none' : 'rounded-tl-none') 
-            : '';
+            ? (msg.isMe ? 'rounded-tr-[4px]' : 'rounded-tl-[4px]') 
+            : 'rounded-2xl';
             
           return (
-            <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} ${isFirstInSequence ? 'mt-2' : ''} group relative`}>
+            <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} ${isFirstInSequence ? 'mt-1.5' : 'mt-0.5'} group relative`}>
               {/* Botão de inversão de remetente visível apenas no hover */}
               <button 
                 onClick={() => toggleSender(msg.id)}
@@ -91,12 +98,24 @@ function WhatsAppMockup() {
                 <ArrowLeftRight size={14} />
               </button>
 
-              <div className={`relative max-w-[85%] ${msg.type === 'image' ? 'p-1' : 'px-2.5 pt-1.5 pb-2'} rounded-lg shadow-sm text-[14.5px] leading-snug tracking-tight
+              <div className={`relative max-w-[85%] ${msg.type === 'image' ? 'p-1' : 'px-2 pt-1.5 pb-1.5'} rounded-2xl shadow-[0_1px_0.5px_rgba(0,0,0,0.13)] text-[14.5px] leading-[19px] tracking-normal
                   ${msg.isMe 
-                    ? 'bg-[#DCF8C6] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' 
+                    ? 'bg-[#D9FDD3] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' 
                     : 'bg-white text-black dark:bg-[#202c33] dark:text-[#e9edef]'}
                   ${tailClass}`}
               >
+                {/* SVG Tail para o primeiro balão */}
+                {isFirstInSequence && (
+                  msg.isMe ? (
+                    <svg viewBox="0 0 8 13" width="8" height="13" className="absolute top-0 -right-2 text-[#D9FDD3] dark:text-[#005c4b] fill-current">
+                      <path d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 8 13" width="8" height="13" className="absolute top-0 -left-2 text-white dark:text-[#202c33] fill-current">
+                      <path d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z" transform="scale(-1, 1) translate(-8, 0)" />
+                    </svg>
+                  )
+                )}
                 {/* TEXT TYPE */}
                 {(!msg.type || msg.type === 'text') && (
                   <span 
@@ -111,15 +130,23 @@ function WhatsAppMockup() {
 
                 {/* AUDIO TYPE */}
                 {msg.type === 'audio' && (
-                  <div className="flex items-center gap-3 w-56 sm:w-64 py-1">
-                    <div className="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                      <Mic size={20} className="text-white opacity-50" />
+                  <div className="flex items-center gap-2 w-56 sm:w-[260px] py-0.5">
+                    <div className="relative">
+                      <div className="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-600 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                        <Mic size={20} className="text-white opacity-50" />
+                      </div>
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#53bdeb] rounded-full flex items-center justify-center border-2 border-[#D9FDD3] dark:border-[#005c4b]">
+                        <Mic size={8} className="text-white" />
+                      </div>
                     </div>
-                    <Play size={24} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0" fill="currentColor" />
-                    <div className="flex-1 flex items-center gap-0.5 h-6">
-                      {[2, 4, 3, 6, 8, 10, 6, 3, 5, 8, 12, 16, 14, 10, 8, 4, 2].map((h, i) => (
-                        <div key={i} className={`w-1 rounded-full ${msg.isMe ? 'bg-[#128C7E] dark:bg-emerald-400' : 'bg-gray-400 dark:bg-gray-500'}`} style={{ height: `${h}px` }} />
-                      ))}
+                    <Play size={20} className="text-gray-500 dark:text-gray-400 cursor-pointer flex-shrink-0 ml-1" fill="currentColor" />
+                    <div className="flex flex-col flex-1 justify-center mt-1">
+                      <div className="flex items-center gap-[1px] h-4">
+                        {[2, 4, 3, 6, 8, 10, 6, 3, 5, 8, 12, 16, 14, 10, 8, 4, 2, 5, 7, 10, 12, 8, 4].map((h, i) => (
+                          <div key={i} className={`w-[2px] rounded-full bg-gray-400 dark:bg-gray-500`} style={{ height: `${Math.max(2, h * 0.7)}px` }} />
+                        ))}
+                      </div>
+                      <span className="text-[10px] text-gray-500 mt-1">0:15</span>
                     </div>
                   </div>
                 )}
@@ -175,14 +202,18 @@ function WhatsAppMockup() {
 
       {/* Rodapé (Barra de Digitação) */}
       {showFooter && (
-        <div className="bg-[#f0f0f0] dark:bg-[#202c33] p-2 flex items-center gap-2 z-10">
-          <Smile size={24} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-          <Paperclip size={20} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-          <div className="flex-1 bg-white dark:bg-[#2a3942] rounded-full px-4 py-2 text-sm text-gray-500 dark:text-[#8696a0] cursor-text">
-            Mensagem
+        <div className="bg-[#F0F2F5] dark:bg-[#202c33] p-2 px-3 flex items-center gap-2 z-10 w-full relative">
+          <div className="flex-1 bg-white dark:bg-[#2a3942] rounded-full flex items-center px-2 py-1.5 shadow-sm relative">
+            <Smile size={24} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
+            <div className="flex-1 text-[15px] text-gray-500 dark:text-[#8696a0] cursor-text px-2">
+              Mensagem
+            </div>
+            <div className="flex items-center gap-3 pr-2">
+              <Paperclip size={20} className="text-gray-500 dark:text-[#8696a0] flex-shrink-0 cursor-pointer" />
+              <Camera size={22} className="text-gray-500 dark:text-[#8696a0] flex-shrink-0 cursor-pointer" />
+            </div>
           </div>
-          <Camera size={22} className="text-gray-500 dark:text-[#8696a0] mx-1 flex-shrink-0 cursor-pointer" />
-          <div className="w-10 h-10 rounded-full bg-[#00A884] flex items-center justify-center flex-shrink-0 ml-1 text-white cursor-pointer shadow-sm">
+          <div className="w-10 h-10 rounded-full bg-[#00A884] flex items-center justify-center flex-shrink-0 text-white cursor-pointer shadow-sm">
             <Mic size={20} />
           </div>
         </div>

@@ -1,22 +1,14 @@
-import { useState, useEffect, useMemo } from 'react';
-import { RefreshCw, ArrowLeft, Video, Phone, MoreVertical, CheckCheck, Smile, Paperclip, Camera, Mic } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { RefreshCw, ArrowLeft, Video, Phone, MoreVertical, CheckCheck, Smile, Paperclip, Camera, Mic, ArrowLeftRight } from 'lucide-react';
 import CopyButton from './CopyButton';
 import useCardShortcuts from '../hooks/useCardShortcuts';
 import { motion } from 'framer-motion';
+import { useHistory } from '../context/HistoryContext';
+import { ChatSimulationProvider, useChatSimulation } from '../context/ChatSimulationContext';
+import MockupControls from './MockupControls';
 
-function WhatsAppMockup({ rawChatText }) {
-  const messages = useMemo(() => {
-    if (!rawChatText) return [];
-    const lines = rawChatText.split('\n').filter(line => line.trim() !== '');
-    return lines.map((line, index) => {
-      const timeMatch = line.match(/\[(\d{2}:\d{2})\]/);
-      const time = timeMatch ? timeMatch[1] : '';
-      const textWithoutTime = line.replace(/\[\d{2}:\d{2}\]\s*/, '');
-      const isMe = textWithoutTime.startsWith('Você:') || index % 2 !== 0; 
-      const cleanText = textWithoutTime.replace(/.*?:\s*/, '');
-      return { id: index, time, cleanText, isMe };
-    });
-  }, [rawChatText]);
+function WhatsAppMockup() {
+  const { messages, contactName, updateMessageText, toggleSender } = useChatSimulation();
 
   // Wallpaper pattern sutil
   const bgPattern = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-53.797 53.796-.83-.829L54.627 0zM3.46 0l.83.83-2.63 2.63-.83-.83L3.46 0zm54.166 60l-.83-.83 2.63-2.63.83.83-2.63 2.63z' fill='%239C92AC' fill-opacity='0.08' fill-rule='evenodd'/%3E%3C/svg%3E";
@@ -29,7 +21,7 @@ function WhatsAppMockup({ rawChatText }) {
         <ArrowLeft size={20} className="mr-1 opacity-80 cursor-pointer" />
         <div className="w-9 h-9 rounded-full bg-slate-300 dark:bg-slate-600 mr-3 flex-shrink-0 cursor-pointer"></div>
         <div className="flex flex-col flex-1 leading-tight cursor-pointer">
-          <span className="font-semibold text-[15px]">Contato Simulado</span>
+          <span className="font-semibold text-[15px] truncate max-w-[150px]">{contactName}</span>
           <span className="text-[11px] opacity-80">visto por último hoje às 10:00</span>
         </div>
         <div className="flex items-center gap-5 px-2 opacity-80 cursor-pointer">
@@ -56,14 +48,30 @@ function WhatsAppMockup({ rawChatText }) {
             : '';
             
           return (
-            <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} ${isFirstInSequence ? 'mt-2' : ''}`}>
+            <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'} ${isFirstInSequence ? 'mt-2' : ''} group relative`}>
+              {/* Botão de inversão de remetente visível apenas no hover */}
+              <button 
+                onClick={() => toggleSender(msg.id)}
+                className={`absolute top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-slate-300 rounded-full p-1 shadow-md z-20 ${msg.isMe ? 'right-full mr-2' : 'left-full ml-2'}`}
+                title="Inverter Remetente"
+              >
+                <ArrowLeftRight size={14} />
+              </button>
+
               <div className={`relative max-w-[85%] px-2.5 pt-1.5 pb-2 rounded-lg shadow-sm text-[14.5px] leading-snug tracking-tight
                   ${msg.isMe 
                     ? 'bg-[#DCF8C6] text-black dark:bg-[#005c4b] dark:text-[#e9edef]' 
                     : 'bg-white text-black dark:bg-[#202c33] dark:text-[#e9edef]'}
                   ${tailClass}`}
               >
-                <span className="break-words">{msg.cleanText}</span>
+                <span 
+                  className="break-words outline-none cursor-text block min-w-[20px]"
+                  contentEditable={true}
+                  suppressContentEditableWarning={true}
+                  onBlur={(e) => updateMessageText(msg.id, e.currentTarget.textContent)}
+                >
+                  {msg.text}
+                </span>
                 <span className="text-[10px] text-gray-500 dark:text-[#8696a0] ml-3 float-right translate-y-1 flex items-center gap-1">
                   {msg.time}
                   {msg.isMe && <CheckCheck size={14} className="text-[#53bdeb]" />}
@@ -90,12 +98,11 @@ function WhatsAppMockup({ rawChatText }) {
   );
 }
 
-import { useHistory } from '../context/HistoryContext';
-
-export default function CardGeneratorWhatsApp({ title, description, generatorFn }) {
+function CardGeneratorWhatsAppInner({ title, description, generatorFn }) {
   const [value, setValue] = useState('Gerando...');
   const [isHovered, setIsHovered] = useState(false);
   const { addHistoryItem } = useHistory();
+  const { parseRawText } = useChatSimulation();
 
   const handleGenerate = async () => {
     try {
@@ -104,9 +111,11 @@ export default function CardGeneratorWhatsApp({ title, description, generatorFn 
         setValue('Gerando...');
         const resolved = await result;
         setValue(resolved);
+        parseRawText(resolved);
         addHistoryItem(title, resolved);
       } else {
         setValue(result);
+        parseRawText(result);
         addHistoryItem(title, result);
       }
     } catch (error) {
@@ -139,7 +148,8 @@ export default function CardGeneratorWhatsApp({ title, description, generatorFn 
         {description && <p className="text-sm text-slate-400 mt-1">{description}</p>}
       </div>
 
-      <WhatsAppMockup rawChatText={value} />
+      <MockupControls />
+      <WhatsAppMockup />
 
       <div className="flex gap-2 justify-end mt-auto">
         <CopyButton text={value} />
@@ -154,5 +164,13 @@ export default function CardGeneratorWhatsApp({ title, description, generatorFn 
         </motion.button>
       </div>
     </motion.div>
+  );
+}
+
+export default function CardGeneratorWhatsApp(props) {
+  return (
+    <ChatSimulationProvider>
+      <CardGeneratorWhatsAppInner {...props} />
+    </ChatSimulationProvider>
   );
 }

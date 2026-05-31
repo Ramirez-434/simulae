@@ -3,6 +3,7 @@ import CardGeneratorMulti from '../components/CardGeneratorMulti';
 import ColorPalette from '../components/ColorPalette';
 import QRCodeGen from '../components/QRCodeGen';
 import BarcodeGen from '../components/BarcodeGen';
+import ChartGenerator from '../components/ChartGenerator';
 
 import {
   generateUUID,
@@ -20,7 +21,8 @@ import {
   generateSQLInsert,
   generateLoremIpsum,
   generateRegex,
-  generateRandomNumber
+  generateRandomNumber,
+  generateChartData
 } from '../utils/generators/tech';
 
 export default function Tecnologia() {
@@ -150,6 +152,11 @@ export default function Tecnologia() {
           <BarcodeGen 
             title="Código de Barras" 
             description="Padrão genérico CODE128" 
+          />
+          <ChartGenerator 
+            title="Gráfico de Barras" 
+            description="Mock de dados analíticos" 
+            generatorFn={() => generateChartData()} 
           />
         </div>
       </div>

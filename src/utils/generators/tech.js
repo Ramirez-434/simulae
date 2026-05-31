@@ -121,3 +121,11 @@ export function generateRegex() {
   ];
   return patterns[Math.floor(Math.random() * patterns.length)];
 }
+
+export function generateChartData() {
+  const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'];
+  return labels.map(label => ({
+    name: label,
+    value: Math.floor(Math.random() * 8000) + 2000
+  }));
+}
